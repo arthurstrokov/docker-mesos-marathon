@@ -1,0 +1,31 @@
+{
+  "id": "basic-3-lb",
+  "cmd": "python3 -m http.server 8080",
+  "cpus": 0.1,
+  "mem": 32.0,
+  "instances": 2,
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "python:3"
+    },
+    "portMappings": [
+      {
+        "containerPort": 8080,
+        "hostPort": 0
+      }
+    ]
+  },
+  "labels": {
+    "HAPROXY_DEPLOYMENT_GROUP": "basic-3-lb",
+    "HAPROXY_DEPLOYMENT_ALT_PORT": "10005",
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_REDIRECT_TO_HTTPS": "true",
+    "HAPROXY_0_VHOST": "64.172.103.2"
+  }
+}

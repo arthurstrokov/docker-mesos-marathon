@@ -1,0 +1,24 @@
+{
+  "id": "basic-3",
+  "cmd": "python3 -m http.server 8080",
+  "cpus": 0.1,
+  "mem": 32.0,
+  "instances": 2,
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "python:3"
+    },
+    "portMappings": [
+      {
+        "containerPort": 8080,
+        "hostPort": 0
+      }
+    ]
+  }
+}

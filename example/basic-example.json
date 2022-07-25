@@ -1,0 +1,20 @@
+{
+  "id": "basic-example",
+  "cmd": "while [ true ] ; do echo 'Hello Marathon' ; sleep 5 ; done",
+  "cpus": 0.1,
+  "mem": 10.0,
+  "instances": 1,
+  "healthChecks": [
+    {
+      "protocol": "COMMAND",
+      "command": {
+        "value": "pwd"
+      },
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false
+    }
+  ]
+}
