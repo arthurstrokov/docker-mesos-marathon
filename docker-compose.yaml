@@ -11,10 +11,10 @@ services:
     networks:
       app_net:
         ipv4_address: 172.16.121.2
-#    volumes: # TODO Unable to restart with mounted volumes
-#      - zookeeper-volumes:/datalog
-#      - zookeeper-volumes:/logs
-#      - zookeeper-volumes:/data
+    #    volumes: # TODO Unable to restart with mounted volumes
+    #      - zookeeper-volumes:/datalog
+    #      - zookeeper-volumes:/logs
+    #      - zookeeper-volumes:/data
     healthcheck:
       test: "echo stat | nc localhost $$ZOOKEEPER_CLIENT_PORT" # TODO ?
 
@@ -200,7 +200,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "9090:9090"
+      - "9092:9090"
       - "9091:9091"
       - "12192:12192"
     networks:
@@ -212,7 +212,7 @@ services:
       - marathon
     command: [ poll, --group, local, --marathon, http://marathon:8080, --haproxy-map, --group-https-by-vhost ]
     environment:
-      - PORTS=9090
+      - PORTS=9092
       - LIBPROCESS_IP=172.16.121.5
     extra_hosts:
       - host.docker.internal:host-gateway
@@ -248,7 +248,7 @@ networks:
         - subnet: 172.16.121.0/24
 
 volumes:
-#  zookeeper-volumes: { }
+  #  zookeeper-volumes: { }
   mesos-slave-0-volumes: { }
   mesos-slave-1-volumes: { }
   mesos-slave-2-volumes: { }
