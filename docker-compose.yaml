@@ -210,12 +210,41 @@ services:
       - marathon
     depends_on:
       - marathon
-    command: [ poll, --group, local, --marathon, http://marathon:8080, --haproxy-map, --group-https-by-vhost ]
+    command:
+      [
+        poll,
+        --group,
+        local,
+        --marathon,
+        http://marathon:8080,
+        --haproxy-map,
+        --group-https-by-vhost
+      ]
     environment:
       - PORTS=9092
       - LIBPROCESS_IP=172.16.121.5
     extra_hosts:
       - host.docker.internal:host-gateway
+
+  marathon-lb-autoscale: # TODO Not working
+    image: mesosphere/marathon-lb-autoscale:latest
+    container_name: marathon-lb-autoscale
+    networks:
+      app_net:
+        ipv4_address: 172.16.121.10
+    command:
+      [
+        --marathon,
+        http://host.docker.internal:5000,
+        --haproxy,
+        http://marathon-lb.master.mesos:9090,
+        --target-rps,
+        "100",
+        --apps,
+        cloud-configuration-server
+      ]
+    environment:
+      - LIBPROCESS_IP=172.16.121.10
 
   chronos:
     image: mesosphere/chronos:latest
@@ -229,7 +258,10 @@ services:
     depends_on:
       - zookeeper
       - mesos-master
-    command: [ --zk_hosts zookeeper:2181 --master zk://zookeeper:2181/mesos ]
+    command:
+      [
+        --zk_hosts zookeeper:2181 --master zk://zookeeper:2181/mesos
+      ]
     environment:
       - PORT0=4400
       - PORT1=4444
